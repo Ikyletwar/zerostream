@@ -383,7 +383,7 @@ ZeroStream was built by **Hizkia Letwar**, a student at SMK Negeri 1 Maluku Teng
 
 No client. No deadline. No assignment brief. This project started — and finished — purely out of curiosity and a habit of building things just to see if they work. Every line of the scraper, the WebSocket layer, the hash diffing logic, the frontend — written in full vibe coding mode, late nights included.
 
-Published: **May 2025**
+Published: **May 27, 2026**
 
 ---
 
@@ -393,7 +393,7 @@ ZeroStream dibuat oleh **Hizkia Letwar**, siswa SMK Negeri 1 Maluku Tengah, Juru
 
 Tidak ada klien. Tidak ada deadline. Tidak ada tugas sekolah yang mewajibkan. Proyek ini dimulai — dan diselesaikan — murni karena hobi dan kebiasaan membangun sesuatu hanya untuk membuktikan bahwa itu bisa dibuat. Setiap baris kode di scraper, lapisan WebSocket, logika hash diffing, sampai frontend — semuanya ditulis dalam mode *full vibe coding*, termasuk begadangnya.
 
-Dipublikasikan: **Mei 2025**
+Dipublikasikan: **27 Mei, 2026**
 
 ---
 
