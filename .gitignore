@@ -7,9 +7,6 @@ backend/data/*.db-journal
 backend/data/ongoing_schedule_cache.json
 backend/logs/
 
-# Environment (jika berisi rahasia)
-.env
-
 # OS generated files
 .DS_Store
 Thumbs.db
