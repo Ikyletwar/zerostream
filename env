@@ -1,0 +1,25 @@
+# Nimegami Environment Variables
+NODE_ENV=production
+PORT=3000
+
+# Scheduler
+SCRAPE_INTERVAL_MINUTES=10
+
+# Rate Limiting
+RATE_LIMIT_WINDOW_MS=900000
+RATE_LIMIT_MAX_REQUESTS=100
+
+# Scraper
+REQUEST_DELAY_MS=500
+SCRAPE_CONCURRENCY=5
+
+# Cache
+CACHE_TTL_SECONDS=60
+CACHE_CHECK_PERIOD_SECONDS=120
+
+# Security
+CORS_ORIGIN=*
+ADMIN_API_KEY=your-secret-key-here
+
+# Logging
+LOG_LEVEL=info
