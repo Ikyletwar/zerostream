@@ -1,0 +1,35 @@
+{
+  "name": "nimegami-web",
+  "version": "4.0.0",
+  "description": "Nimegami - Streaming anime real-time dengan WebSocket, caching, rate limiting",
+  "main": "backend/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "NODE_ENV=development node backend/server.js",
+    "migrate": "node backend/migrate.js",
+    "scrape": "node backend/scraper/incremental.js",
+    "pm2:start": "pm2 start ecosystem.config.cjs",
+    "pm2:stop": "pm2 stop nimegami",
+    "pm2:restart": "pm2 restart nimegami",
+    "pm2:logs": "pm2 logs nimegami"
+  },
+  "keywords": ["anime", "streaming", "websocket", "sqlite"],
+  "author": "Nimegami",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.16.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "node-cron": "^3.0.3",
+    "cheerio": "^1.0.0",
+    "ws": "^8.18.0",
+    "dotenv": "^16.4.5",
+    "winston": "^3.13.0",
+    "express-rate-limit": "^7.4.0",
+    "node-cache": "^5.1.2"
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  }
+}

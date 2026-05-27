@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Database & cache
+backend/data/*.db
+backend/data/*.db-journal
+backend/data/ongoing_schedule_cache.json
+backend/logs/
+
+# Environment (jika berisi rahasia)
+.env
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
+npm-debug.log*

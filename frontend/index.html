@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0a0f">
+    <meta name="description" content="ZeroStream - Streaming anime subtitle Indonesia. Koleksi lengkap, update terbaru, gratis tanpa iklan. Real-time feed.">
+    <title>ZeroStream · Stream Anime Sub Indo</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAClSURBVFhH7ZgxDoAgDEW5AxN34SwuLs7GkZO7iYMJpAwhpX0WaGmSr0mT9kPLA3/8WFtJKSmlpJSSUkrpDWWgZ+gNeoPeoDfoDXqD3qA3yKnQanSYWXEJERERERG9p+zXHWMZ6Bl6g96gN+gNeoPeoDfoDXqD3qA3yKnQanSYWXEJERERERG9p+zXHWMZ6Bl6g96gN+gN+o+eoBfoBXqBXqA/UJ+67KtSSkopJaWU3pT/BuotCiBJZgAAAABJRU5ErkJggg==">
+    
+    <style>
+        /* Additional CSS for carousel and live feed (will be merged into style.css later) */
+        .carousel-section {
+            margin-bottom: 2rem;
+        }
+        .carousel-section h2 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+        .horizontal-scroll {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            scrollbar-width: thin;
+            padding-bottom: 0.5rem;
+        }
+        .horizontal-scroll::-webkit-scrollbar {
+            height: 4px;
+        }
+        .carousel-card {
+            flex: 0 0 150px;
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid var(--border-light);
+        }
+        .carousel-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+        .carousel-poster {
+            position: relative;
+            aspect-ratio: 2 / 3;
+            overflow: hidden;
+            background: var(--bg-tertiary);
+        }
+        .carousel-poster img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .carousel-ep-badge {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(4px);
+            padding: 2px 6px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: white;
+        }
+        .carousel-status {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 2px 6px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: bold;
+            background: rgba(0,0,0,0.7);
+        }
+        .carousel-status.ongoing { color: var(--warning); }
+        .carousel-status.complete { color: var(--success); }
+        .carousel-info {
+            padding: 0.5rem;
+        }
+        .carousel-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .carousel-sub {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+        .live-feed-section {
+            margin-top: 2rem;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+        }
+        .live-feed-section h2 {
+            padding: 1rem;
+            margin: 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .live-feed-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .live-feed-item {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+        .live-feed-item:hover {
+            background: var(--bg-tertiary);
+        }
+        .live-feed-time {
+            color: var(--accent);
+            font-weight: 500;
+            min-width: 60px;
+        }
+        .live-feed-message {
+            color: var(--text-secondary);
+        }
+        @media (min-width: 768px) {
+            .carousel-card { flex-basis: 180px; }
+        }
+        
+        /* CSS for Schedule Section */
+        .schedule-section {
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+            padding: 1.5rem;
+        }
+        .schedule-section h2 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+        }
+        .schedule-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.25rem;
+        }
+        .schedule-day {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-light);
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .schedule-day h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: 0.5rem;
+            margin: 0;
+        }
+        .schedule-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            min-height: 50px;
+        }
+        .schedule-card {
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-sm);
+            padding: 0.75rem;
+            font-size: 0.85rem;
+            border: 1px solid transparent;
+            transition: border-color 0.2s, transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        .schedule-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        .schedule-card a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        .schedule-card a:hover {
+            color: var(--accent);
+        }
+        .schedule-card .eps {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .badge-updated {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            width: fit-content;
+        }
+        .empty-day-schedule {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-style: italic;
+            text-align: center;
+            padding: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header" aria-label="Main header">
+        <div class="container header-container">
+            <a href="index.html" class="logo"><i class="fas fa-film"></i> ZeroStream</a>
+            <nav class="desktop-nav">
+                <a href="index.html" class="nav-link active">Home</a>
+                <button class="nav-link nav-filter" data-status="ongoing">Ongoing</button>
+                <button class="nav-link nav-filter" data-status="complete">Complete</button>
+            </nav>
+            <div class="header-actions">
+                <button class="icon-btn search-toggle" id="search-toggle-btn"><i class="fas fa-search"></i></button>
+                <button class="icon-btn settings-icon" id="settings-icon"><i class="fas fa-sliders-h"></i></button>
+                <button class="hamburger" id="hamburger-menu" aria-label="Menu" aria-expanded="false">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-search-drawer" class="mobile-search-drawer" hidden>
+            <div class="container">
+                <div class="search-group">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="search-input" placeholder="Cari anime, genre, atau studio..." autocomplete="off">
+                    <button type="button" id="search-clear-btn" class="search-clear-btn" style="display: none;" aria-label="Clear search"><i class="fas fa-times"></i></button>
+                </div>
+                <div id="search-suggestions" class="search-suggestions"></div>
+            </div>
+        </div>
+    </header>
+
+    <div id="mobile-nav" class="mobile-nav" hidden>
+        <div class="mobile-nav-header">
+            <span class="mobile-nav-title">Menu</span>
+            <button class="close-nav" id="close-nav-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <nav class="mobile-nav-links">
+            <a href="index.html" class="mobile-nav-link"><i class="fas fa-home"></i> Home</a>
+            <button class="mobile-nav-link mobile-filter" data-status="ongoing"><i class="fas fa-sync-alt"></i> Ongoing</button>
+            <button class="mobile-nav-link mobile-filter" data-status="complete"><i class="fas fa-check-circle"></i> Complete</button>
+            <button class="mobile-nav-link" id="mobile-bookmarks-link"><i class="fas fa-bookmark"></i> Bookmarks</button>
+            <button class="mobile-nav-link" id="mobile-history-link"><i class="fas fa-history"></i> History</button>
+        </nav>
+    </div>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- 🔥 NEW SECTION: Carousels (Fase 3) -->
+            <div class="carousel-section">
+                <h2><i class="fas fa-fire"></i> New Release</h2>
+                <div class="horizontal-scroll" id="new-release-container"></div>
+            </div>
+            <div class="carousel-section">
+                <h2><i class="fas fa-clock"></i> Latest Episode</h2>
+                <div class="horizontal-scroll" id="latest-episode-container"></div>
+            </div>
+            <div class="carousel-section">
+                <h2><i class="fas fa-sync-alt"></i> Recently Updated</h2>
+                <div class="horizontal-scroll" id="recently-updated-container"></div>
+            </div>
+
+            <!-- Schedule Section -->
+            <section class="schedule-section">
+                <h2><i class="fas fa-calendar-alt"></i> Jadwal Rilis Mingguan</h2>
+                <div class="schedule-container">
+                    <div class="schedule-day" data-day="senin">
+                        <h3>Senin</h3>
+                        <div class="schedule-items"></div>
+                    </div>
+                    <div class="schedule-day" data-day="selasa">
+                        <h3>Selasa</h3>
+                        <div class="schedule-items"></div>
+                    </div>
+                    <div class="schedule-day" data-day="rabu">
+                        <h3>Rabu</h3>
+                        <div class="schedule-items"></div>
+                    </div>
+                    <div class="schedule-day" data-day="kamis">
+                        <h3>Kamis</h3>
+                        <div class="schedule-items"></div>
+                    </div>
+                    <div class="schedule-day" data-day="jumat">
+                        <h3>Jumat</h3>
+                        <div class="schedule-items"></div>
+                    </div>
+                    <div class="schedule-day" data-day="sabtu">
+                        <h3>Sabtu</h3>
+                        <div class="schedule-items"></div>
+                    </div>
+                    <div class="schedule-day" data-day="minggu">
+                        <h3>Minggu</h3>
+                        <div class="schedule-items"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Filter Bar -->
+            <div class="filters-bar">
+                <div class="filter-group">
+                    <select id="filter-genre">
+                        <option value="all">All Genres</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <select id="filter-status">
+                        <option value="all">All Status</option>
+                        <option value="ongoing">Ongoing</option>
+                        <option value="complete">Complete</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <select id="sort-by">
+                        <option value="default">Sort: A-Z</option>
+                        <option value="rating">Highest Rating</option>
+                        <option value="title-asc">Title A-Z</option>
+                        <option value="title-desc">Title Z-A</option>
+                    </select>
+                </div>
+                <div class="filter-group layout-toggle">
+                    <button id="grid-view-btn" class="layout-btn active"><i class="fas fa-th"></i></button>
+                    <button id="list-view-btn" class="layout-btn"><i class="fas fa-list"></i></button>
+                </div>
+            </div>
+
+            <!-- Anime Grid / List -->
+            <div id="anime-container" class="anime-container grid-view"></div>
+
+            <!-- Pagination -->
+            <div id="pagination" class="pagination"></div>
+            <div id="load-more" class="load-more" style="display: none;">
+                <button class="btn-primary"><i class="fas fa-arrow-down"></i> Load More</button>
+            </div>
+            <div id="end-message" class="end-message" style="display: none;">
+                <i class="fas fa-flag-checkered"></i> You've reached the end
+            </div>
+
+            <!-- 🔴 LIVE FEED -->
+            <div class="live-feed-section">
+                <h2><i class="fas fa-broadcast-tower"></i> Live Feed</h2>
+                <div id="live-feed-list" class="live-feed-list">
+                    <div class="live-feed-item">Loading feed...</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="settings-panel" class="settings-panel" hidden>
+        <div class="settings-header">
+            <h3><i class="fas fa-cog"></i> Preferences</h3>
+            <button class="close-btn" id="close-settings"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="settings-body">
+            <div class="setting-item">
+                <label><i class="fas fa-moon"></i> Theme</label>
+                <div class="toggle-buttons">
+                    <button data-theme="dark" class="theme-btn">Dark</button>
+                    <button data-theme="light" class="theme-btn">Light</button>
+                </div>
+            </div>
+            <div class="setting-item">
+                <label><i class="fas fa-th-large"></i> Layout</label>
+                <div class="toggle-buttons">
+                    <button data-layout="grid" class="layout-mode-btn">Grid</button>
+                    <button data-layout="list" class="layout-mode-btn">List</button>
+                </div>
+            </div>
+            <div class="setting-item">
+                <label><i class="fas fa-infinity"></i> Pagination Mode</label>
+                <div class="toggle-buttons">
+                    <button data-mode="pagination" class="pagination-mode-btn">Classic</button>
+                    <button data-mode="infinite" class="pagination-mode-btn">Infinite Scroll</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="js/common.js"></script>
+    <script src="js/home.js"></script>
+</body>
+</html>
