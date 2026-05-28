@@ -401,6 +401,6 @@ Dipublikasikan: **27 Mei, 2026**
 
 Made with intent. Runs without noise.
 
-*— Hizkia Letwar, Maluku Tengah*
+*— Hizkia Letwar, a student at SMKN 1 Central Maluku*
 
 </div>
